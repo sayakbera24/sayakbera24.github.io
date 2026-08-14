@@ -112,33 +112,73 @@ a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px soli
 }
 
 /* ==========================================================================
-   HOME PAGE — hero + get-in-touch
+   HOME PAGE — hero + get-in-touch (UPDATED)
    ========================================================================== */
-.hero-container { display: flex; gap: 40px; margin-bottom: 60px; align-items: stretch; flex-wrap: wrap; }
+.hero-container { 
+  display: grid; 
+  grid-template-columns: 300px 1fr 340px; 
+  gap: 40px; 
+  margin-bottom: 60px; 
+  align-items: stretch; /* Forces all 3 columns to match top & bottom alignment */
+}
 
-.hero-left { flex: 0 0 300px; display: flex; flex-direction: column; }
-.hero-img { width: 300px; height: 400px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 15px; }
+.hero-left { display: flex; flex-direction: column; }
+.hero-img { 
+  width: 100%; 
+  height: auto; 
+  flex-grow: 1; /* Stretches the image to fill space minus the button */
+  object-fit: cover; 
+  border-radius: 12px; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
+  margin-bottom: 15px; 
+}
 .resume-btn { text-align: center; width: 100%; padding: 12px 0; background-color: #0A66C2; color: white !important; text-decoration: none; border-radius: 6px; font-weight: bold; transition: all 0.2s; display: inline-block; box-sizing: border-box; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 .resume-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); text-decoration: none; }
 
-.hero-text { flex: 1 1 340px; min-width: 300px; display: flex; flex-direction: column; justify-content: space-between; }
+.hero-text { display: flex; flex-direction: column; justify-content: space-between; }
 .hero-text p { margin: 0 0 16px 0; line-height: 1.7; }
 .hero-text p:last-child { margin-bottom: 0; }
 
-.hero-right { flex: 0 0 340px; display: flex; flex-direction: column; justify-content: flex-end; }
-
+.hero-right { display: flex; flex-direction: column; }
 .theme-card {
-  display: flex; flex-direction: column; align-items: center; text-align: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
   padding: 30px; background-color: #fcfcfc; border-radius: 12px; border: 1px solid #eaeaea;
-  width: 100%;
+  width: 100%; 
+  height: 100%; /* Stretches the card's height to strictly match the adjacent columns */
+  box-sizing: border-box;
 }
 .theme-card h3 { margin-top: 0; margin-bottom: 15px; }
 .theme-card p { margin: 5px 0; line-height: 1.6; }
 
-@media (max-width: 900px) {
-  .hero-container { flex-direction: column; align-items: center; }
-  .hero-left, .hero-text, .hero-right { width: 100%; max-width: 500px; flex: none; }
-  .hero-right { justify-content: center; }
+/* Threshold 1: Push "Get In Touch" below the bio text and center align it */
+@media (max-width: 1150px) {
+  .hero-container {
+    grid-template-columns: 300px 1fr;
+  }
+  .hero-right {
+    grid-column: 1 / -1; /* Spans across the full width of the grid */
+    align-items: center; 
+  }
+  .theme-card {
+    max-width: 500px; /* Prevents the card from looking stretched out when centered */
+  }
+}
+
+/* Threshold 2: Stack all 3 sections vertically and center align them */
+@media (max-width: 850px) {
+  .hero-container {
+    grid-template-columns: 1fr; /* Single column layout */
+    justify-items: center; 
+  }
+  .hero-left, .hero-text, .hero-right {
+    width: 100%;
+    max-width: 500px;
+    align-items: center;
+    text-align: center;
+  }
+  .hero-img {
+    max-height: 400px; /* Restores a fixed max-height when stacked so it doesn't overly stretch */
+  }
 }
 
 /* ==========================================================================
